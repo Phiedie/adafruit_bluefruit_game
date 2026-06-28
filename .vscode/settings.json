@@ -1,0 +1,8 @@
+{
+    "go.toolsEnvVars": {
+        "GOOS": "linux",
+        "GOARCH": "arm",
+        "GOROOT": "C:\\Users\\vogel\\AppData\\Local\\tinygo\\goroot-7938c1ffc2a0ba6a207bd0bbbda80a56752b36a6fc99085c899d1857eea73506",
+        "GOFLAGS": "-tags=cortexm,baremetal,linux,arm,nrf52840,nrf,nrf52840_reset_uf2,softdevice,s140v6,circuitplay_bluefruit,tinygo,purego,osusergo,math_big_pure_go,gc.conservative,scheduler.tasks,serial.usb,tinygo.unicore"
+    }
+}
