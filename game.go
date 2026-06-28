@@ -2,10 +2,12 @@ package main
 
 import (
 	"image/color"
+	"time"
 )
 
 func startGeme() {
 	for {
+		var gameColor color.RGBA = color.RGBA{R: 128, G: 128, B: 128}
 		if player1.hasWon() || player2.hasWon() {
 			return
 		}
@@ -13,12 +15,12 @@ func startGeme() {
 		var ticksBetweenSwitch uint8 = 50
 		var tickCount uint8 = 0
 		var acitveLed int8 = ledLen - 1
-		leds[acitveLed] = color.RGBA{R: 255, B: 128}
+		leds[acitveLed] = gameColor
 		ws.WriteColors(leds)
 		for {
 			if ticksBetweenSwitch == tickCount {
 				tickCount = 0
-				acitveLed = switchToNextActiveLed(acitveLed)
+				acitveLed = switchToNextActiveLed(acitveLed, gameColor)
 				if acitveLed == player1.ledIdx && player1.validButtonPush {
 					player2.scored()
 					break
@@ -48,7 +50,8 @@ func startGeme() {
 				if player1.button.Get() {
 					player1.hasHit = true
 					player1.validButtonPush = true
-					leds[player1.ledIdx] = color.RGBA{G: 255}
+					leds[player1.ledIdx] = player1.playerColor
+					gameColor = player1.playerColor
 				}
 			} else {
 				if player1.button.Get() {
@@ -64,7 +67,8 @@ func startGeme() {
 				if player2.button.Get() {
 					player2.hasHit = true
 					player2.validButtonPush = true
-					leds[player2.ledIdx] = color.RGBA{G: 255}
+					leds[player2.ledIdx] = player2.playerColor
+					gameColor = player2.playerColor
 				}
 			} else {
 				if player2.button.Get() {
@@ -86,13 +90,20 @@ func startGeme() {
 	}
 }
 
-func switchToNextActiveLed(curActiveLed int8) (nowActiveLed int8) {
+func switchToNextActiveLed(curActiveLed int8, c color.RGBA) (nowActiveLed int8) {
 	leds[curActiveLed] = color.RGBA{}
 	nowActiveLed = curActiveLed - 1
 	if nowActiveLed == -1 {
 		nowActiveLed = ledLen - 1
 	}
-	leds[nowActiveLed] = color.RGBA{R: 255, B: 128}
+	leds[nowActiveLed] = c
 	ws.WriteColors(leds)
 	return nowActiveLed
+}
+
+func showScore() {
+	player1.setScoreInLeds()
+	player2.setScoreInLeds()
+	ws.WriteColors(leds)
+	time.Sleep(time.Second * 2)
 }

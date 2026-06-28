@@ -8,12 +8,12 @@ import (
 func getReady() {
 	for {
 		if player1.button.Get() {
-			leds[player1.ledIdx] = color.RGBA{R: 64}
+			leds[player1.ledIdx] = player1.playerColor
 		} else {
 			leds[player1.ledIdx] = color.RGBA{R: 0}
 		}
 		if player2.button.Get() {
-			leds[player2.ledIdx] = color.RGBA{R: 64}
+			leds[player2.ledIdx] = player2.playerColor
 		} else {
 			leds[player2.ledIdx] = color.RGBA{R: 0}
 		}

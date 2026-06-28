@@ -12,15 +12,7 @@ func (p *player) scored() {
 	blinkLeds(2, time.Second/2, time.Second/2)
 	clearLeds()
 	time.Sleep(time.Second / 2)
-	var ledIndex int8
-	ledIndex = 0
-	for i := range p.score {
-		ledIndex = p.firstScoreLed + i*p.ledScoreDirection
-		leds[ledIndex] = color.RGBA{B: 255}
-	}
-	ws.WriteColors(leds)
-	time.Sleep(time.Second)
-	clearLeds()
+	showScore()
 	return
 }
 
@@ -30,4 +22,13 @@ func (p *player) hasWon() bool {
 		return true
 	}
 	return false
+}
+
+func (p *player) setScoreInLeds() {
+	var ledIndex int8
+	ledIndex = 0
+	for i := range p.score {
+		ledIndex = p.firstScoreLed + i*p.ledScoreDirection
+		leds[ledIndex] = p.playerColor
+	}
 }

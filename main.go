@@ -21,6 +21,7 @@ type player struct {
 	hasHit            bool
 	firstScoreLed     int8
 	ledScoreDirection int8
+	playerColor       color.RGBA
 }
 
 var player1 = player{
@@ -28,12 +29,14 @@ var player1 = player{
 	ledIdx:            reverseLedIdx(7, ledLen),
 	firstScoreLed:     reverseLedIdx(ledLen-1, ledLen),
 	ledScoreDirection: 1,
+	playerColor:       color.RGBA{G: 255, B: 128},
 }
 var player2 = player{
 	button:            machine.BUTTONB,
 	ledIdx:            reverseLedIdx(2, ledLen),
 	firstScoreLed:     reverseLedIdx(0, ledLen),
 	ledScoreDirection: -1,
+	playerColor:       color.RGBA{R: 255, B: 128},
 }
 var ws = ws2812.New(ledNeoPin)
 var leds = make([]color.RGBA, 10)
