@@ -11,9 +11,12 @@ import (
 const ledNeoPin = machine.WS2812
 const ledLen int8 = 10
 const maxScore int8 = 5
-const ledBrightness = 30
+const ledBrightness = 10
+
+var playerLastScored = 1
 
 type player struct {
+	playerNum         int8
 	button            machine.Pin
 	ledIdx            int8
 	score             int8
@@ -25,6 +28,7 @@ type player struct {
 }
 
 var player1 = player{
+	playerNum:         1,
 	button:            machine.BUTTONA,
 	ledIdx:            reverseLedIdx(7, ledLen),
 	firstScoreLed:     reverseLedIdx(ledLen-1, ledLen),
@@ -32,12 +36,14 @@ var player1 = player{
 	playerColor:       color.RGBA{G: 255, B: 128},
 }
 var player2 = player{
+	playerNum:         2,
 	button:            machine.BUTTONB,
 	ledIdx:            reverseLedIdx(2, ledLen),
 	firstScoreLed:     reverseLedIdx(0, ledLen),
 	ledScoreDirection: -1,
 	playerColor:       color.RGBA{R: 255, B: 128},
 }
+
 var ws = ws2812.New(ledNeoPin)
 var leds = make([]color.RGBA, 10)
 
@@ -45,6 +51,7 @@ func main() {
 	initIO()
 	getReady()
 	startGeme()
+
 }
 
 func reverseLedIdx(idx int8, ledsLen int8) int8 {

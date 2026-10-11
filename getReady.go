@@ -10,12 +10,12 @@ func getReady() {
 		if player1.button.Get() {
 			leds[player1.ledIdx] = player1.playerColor
 		} else {
-			leds[player1.ledIdx] = color.RGBA{R: 0}
+			leds[player1.ledIdx] = color.RGBA{}
 		}
 		if player2.button.Get() {
 			leds[player2.ledIdx] = player2.playerColor
 		} else {
-			leds[player2.ledIdx] = color.RGBA{R: 0}
+			leds[player2.ledIdx] = color.RGBA{}
 		}
 		ws.WriteColors(leds)
 		if player1.button.Get() && player2.button.Get() {

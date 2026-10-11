@@ -6,15 +6,28 @@ import (
 )
 
 func startGeme() {
+	var startLed int8
+	var ticksBetweenSwitch int8
+	var tickCount int8
+	var acitveLed int8
+	var gameColor color.RGBA
 	for {
-		var gameColor color.RGBA = color.RGBA{R: 128, G: 128, B: 128}
+		gameColor = color.RGBA{R: 128, G: 128, B: 128}
 		if player1.hasWon() || player2.hasWon() {
 			return
 		}
 		clearLeds()
-		var ticksBetweenSwitch uint8 = 50
-		var tickCount uint8 = 0
-		var acitveLed int8 = ledLen - 1
+		ticksBetweenSwitch = 50 - (player1.score*5 + player2.score*5)
+		if ticksBetweenSwitch < 20 {
+			ticksBetweenSwitch = 20
+		}
+		println(ticksBetweenSwitch)
+		tickCount = 0
+		acitveLed = reverseLedIdx(0, ledLen)
+		if playerLastScored == 1 {
+			acitveLed = reverseLedIdx(5, ledLen)
+		}
+		startLed = acitveLed
 		leds[acitveLed] = gameColor
 		ws.WriteColors(leds)
 		for {
@@ -42,8 +55,9 @@ func startGeme() {
 				} else {
 					player2.hasHit = false
 				}
-				if acitveLed == 0 && ticksBetweenSwitch > 10 {
+				if acitveLed == startLed && ticksBetweenSwitch > 10 {
 					ticksBetweenSwitch -= 5
+					println(ticksBetweenSwitch)
 				}
 			}
 			if acitveLed == player1.ledIdx {

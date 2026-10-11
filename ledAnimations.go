@@ -6,7 +6,7 @@ import (
 )
 
 func clearLeds() {
-	for i := range leds {
+	for i, _ := range leds {
 		leds[i] = color.RGBA{}
 	}
 	ws.WriteColors(leds)

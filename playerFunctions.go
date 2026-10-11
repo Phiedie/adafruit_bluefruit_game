@@ -6,6 +6,7 @@ import (
 )
 
 func (p *player) scored() {
+	playerLastScored = int(p.playerNum)
 	p.score++
 	leds[p.ledIdx] = color.RGBA{B: 255}
 	ws.WriteColors(leds)
